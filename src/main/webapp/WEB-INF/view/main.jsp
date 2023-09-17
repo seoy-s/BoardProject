@@ -1,0 +1,33 @@
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+    <title>Board</title>
+</head>
+<body>
+<h1>Board👁‍🗨</h1>
+<table>
+    <th>번호</th>
+    <th>제목</th>
+    <th>작성자</th>
+    <th>작성일</th>
+    <tr>
+        <td>1</td>
+        <td>제목1</td>
+        <td>작성자1</td>
+        <td>작성일1</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>제목2</td>
+        <td>작성자2</td>
+        <td>작성일2</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>제목3</td>
+        <td>작성자3</td>
+        <td>작성일3</td>
+    </tr>
+</table>
+</body>
+</html>
