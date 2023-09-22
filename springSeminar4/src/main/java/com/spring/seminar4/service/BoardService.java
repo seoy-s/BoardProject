@@ -1,11 +1,17 @@
 package com.spring.seminar4.service;
 
 import com.spring.seminar4.entity.Board;
+import com.spring.seminar4.entity.PageResponse;
 import com.spring.seminar4.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BoardService {
@@ -18,8 +24,42 @@ public class BoardService {
      * 글 목록
      * @return
      */
-    public Page<Board> boardList(Pageable pageable) {
-        return boardRepository.findAll(pageable); // Board라는 클래스가 담긴 list를 찾아 반환
+//    public Page<Board> boardList(Pageable pageable) {
+//        return boardRepository.findAll(pageable); // Board라는 클래스가 담긴 list를 찾아 반환
+//    }
+
+    private Board mapToDto(Board board) {
+
+        return Board.builder()
+                .id(board.getId())
+                .title(board.getTitle())
+                .writer(board.getWriter())
+                .content(board.getContent())
+                .build();
+    }
+
+
+    public PageResponse searchAllPaging(int pageNo, int pageSize, String sortBy) {
+
+        // Pageable 객체 생성
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
+        Page<Board> boardPage = boardRepository.findAll(pageable);
+
+        // .map()을 더 추가해서 바로 Page<PageResponse> 값으로 시작할 수 있어!
+        // Page<TodoResponse> todoDtoPage = todoRepository.findAll(pageable).map(this::mapToDto);
+
+        List<Board> listTodos = Board.getContent();
+
+        List<PageResponse> content = listTodos.stream().map(Board -> mapToDto(Board)).collect(Collectors.toList());
+
+        return PageResponse.builder()
+                .pageNo(pageNo)
+                .pageSize(pageSize)
+                .totalElements(todoPage.getTotalElements())
+                .totalPages(todoPage.getTotalPages())
+                .last(todoPage.isLast())
+                .build();
+
     }
 
     /**
